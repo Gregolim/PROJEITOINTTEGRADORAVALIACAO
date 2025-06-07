@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feiras Culturais - Dona Clemilda</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-pink-50 font-sans leading-relaxed text-gray-800">
+
+  <!-- Cabeçalho -->
+  <header class="bg-pink-800 text-white p-6 text-center">
+    <h1 class="text-3xl font-bold">Feiras Culturais - Artesanatos da Dona Clemilda</h1>
+    <p class="text-sm mt-2">Conectando comunidade e cultura local</p>
+  </header><!-- Imagem da Feira -->
+<section class="max-w-4xl mx-auto mt-6">
+  <img src="imagem01.jpg" alt="Artesanatos da Dona Clemilda" class="rounded shadow-md w-full object-cover"/>
+  <p class="text-sm text-center mt-2 text-gray-600">Imagem: Feira de artesanato com bonecas e produtos feitos à mão</p>
+</section>
+
+
+  <!-- Seção Cadastro de Feira -->
+  <section class="max-w-4xl mx-auto p-6 bg-white mt-6 rounded shadow" id="cadastroFeira">
+    <h2 class="text-xl font-bold text-pink-700 mb-4">Cadastro de Feiras</h2>
+    <form id="formFeira" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input type="text" placeholder="Nome da Feira" id="nomeFeira" required class="p-2 border rounded"/>
+      <input type="text" placeholder="Local" id="localFeira" required class="p-2 border rounded"/>
+      <input type="date" id="dataFeira" required class="p-2 border rounded"/>
+      <input type="text" placeholder="Produtos Expostos" id="produtosFeira" required class="p-2 border rounded"/>
+      <input type="text" placeholder="Bairro" id="bairroFeira" required class="p-2 border rounded"/>
+      <button class="bg-pink-700 text-white px-4 py-2 rounded hover:bg-pink-800 col-span-full w-full">
+        Cadastrar Feira
+      </button>
+    </form>
+    <ul id="listaFeiras" class="mt-4 list-disc pl-6 text-gray-700"></ul>
+  </section>
+
+  <!-- Seção Cadastro de Empreendedores -->
+  <section class="max-w-4xl mx-auto p-6 bg-white mt-6 rounded shadow" id="cadastroEmpreendedor">
+    <h2 class="text-xl font-bold text-pink-700 mb-4">Cadastro de Empreendedores</h2>
+    <form id="formEmpreendedor" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input type="text" placeholder="Nome do Empreendedor" id="nomeEmpreendedor" required class="p-2 border rounded"/>
+      <input type="text" placeholder="Produto" id="produtoEmpreendedor" required class="p-2 border rounded"/>
+      <input type="text" placeholder="Tipo de Produto (ex: comida, arte)" id="tipoProduto" required class="p-2 border rounded"/>
+      <input type="text" placeholder="Bairro" id="bairroEmpreendedor" required class="p-2 border rounded"/>
+      <button class="bg-pink-700 text-white px-4 py-2 rounded hover:bg-pink-800 col-span-full w-full">
+        Cadastrar Empreendedor
+      </button>
+    </form>
+    <ul id="listaEmpreendedores" class="mt-4 list-disc pl-6 text-gray-700"></ul>
+  </section>
+
+  <!-- Filtros -->
+  <section class="max-w-4xl mx-auto p-6 bg-white mt-6 rounded shadow">
+    <h2 class="text-xl font-bold text-pink-700 mb-4">Filtrar Empreendedores</h2>
+    <div class="flex flex-col md:flex-row gap-4">
+      <input type="text" placeholder="Tipo de Produto" id="filtroTipo" class="p-2 border rounded w-full"/>
+      <input type="text" placeholder="Bairro" id="filtroBairro" class="p-2 border rounded w-full"/>
+      <button onclick="filtrarEmpreendedores()" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700">
+        Filtrar
+      </button>
+    </div>
+    <ul id="listaFiltrada" class="mt-4 list-disc pl-6 text-gray-700"></ul>
+  </section>
+
+  <!-- Feedback -->
+  <section class="max-w-4xl mx-auto p-6 bg-white mt-6 rounded shadow">
+    <h2 class="text-xl font-bold text-pink-700 mb-4">Sugestões e Feedback da Comunidade</h2>
+    <form id="formFeedback" class="space-y-3">
+      <input type="text" placeholder="Seu nome (opcional)" id="nomeFeedback" class="p-2 border rounded w-full"/>
+      <textarea placeholder="Deixe sua sugestão ou feedback..." id="mensagemFeedback" required class="p-2 border rounded w-full h-28"></textarea>
+      <button class="bg-pink-700 text-white px-4 py-2 rounded hover:bg-pink-800 w-full">
+        Enviar Feedback
+      </button>
+    </form>
+    <ul id="listaFeedback" class="mt-4 list-disc pl-6 text-gray-700"></ul>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="text-center text-sm text-gray-600 p-4 mt-10 bg-pink-100">
+    © 2025 Projeto Feiras Culturais. Desenvolvido por Maiara.
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const feiras = [];
+    const empreendedores = [];
+
+    // Cadastro de Feiras
+    document.getElementById("formFeira").onsubmit = function (e) {
+      e.preventDefault();
+      const nome = nomeFeira.value;
+      const local = localFeira.value;
+      const data = dataFeira.value;
+      const produtos = produtosFeira.value;
+      const bairro = bairroFeira.value;
+
+      const feiraTexto = `${nome} - ${local} (${bairro}) - ${data} - Produtos: ${produtos}`;
+      feiras.push(feiraTexto);
+
+      const li = document.createElement("li");
+      li.textContent = feiraTexto;
+      document.getElementById("listaFeiras").appendChild(li);
+      this.reset();
+    };
+
+    // Cadastro de Empreendedores
+    document.getElementById("formEmpreendedor").onsubmit = function (e) {
+      e.preventDefault();
+      const nome = nomeEmpreendedor.value;
+      const produto = produtoEmpreendedor.value;
+      const tipo = tipoProduto.value;
+      const bairro = bairroEmpreendedor.value;
+
+      const texto = `${nome} - Produto: ${produto} - Tipo: ${tipo} - Bairro: ${bairro}`;
+      empreendedores.push({ nome, produto, tipo, bairro });
+
+      const li = document.createElement("li");
+      li.textContent = texto;
+      document.getElementById("listaEmpreendedores").appendChild(li);
+      this.reset();
+    };
+
+    // Filtro de Empreendedores
+    function filtrarEmpreendedores() {
+      const tipo = filtroTipo.value.toLowerCase();
+      const bairro = filtroBairro.value.toLowerCase();
+      const lista = document.getElementById("listaFiltrada");
+      lista.innerHTML = "";
+
+      const filtrados = empreendedores.filter(e =>
+        (tipo === "" || e.tipo.toLowerCase().includes(tipo)) &&
+        (bairro === "" || e.bairro.toLowerCase().includes(bairro))
+      );
+
+      filtrados.forEach(e => {
+        const li = document.createElement("li");
+        li.textContent = `${e.nome} - Produto: ${e.produto} - Tipo: ${e.tipo} - Bairro: ${e.bairro}`;
+        lista.appendChild(li);
+      });
+    }
+
+    // Feedback
+    document.getElementById("formFeedback").onsubmit = function (e) {
+      e.preventDefault();
+      const nome = nomeFeedback.value || "Anônimo";
+      const mensagem = mensagemFeedback.value;
+
+      const li = document.createElement("li");
+      li.textContent = `${nome}: ${mensagem}`;
+      document.getElementById("listaFeedback").appendChild(li);
+      this.reset();
+    };
+  </script>
+</body>
+</html>
+
+
